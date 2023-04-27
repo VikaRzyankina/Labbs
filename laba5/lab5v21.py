@@ -15,17 +15,19 @@ def F_rec(n):               # Рекурсивная функция
     if n == 0 or n == 1:
         return 1
     else:
-        return math.factorial(n-1)
+        return (n-1) * F_rec(n-1)
+
 
 def F_iter(n):              # Итеративная функция
     if n == 0 or n == 1:
         return 1
     else:
         a = 1
-        for i in range(2, n+1):
-            c = math.factorial(a)
-            a+=1
-        return c
+        if n>1:
+            for i in range(1, n+1):
+                a*=n
+                n=n-1
+            return a
 
 n = int(input("Введите натуральное число n, для подсчета F(n) = F(n–1)!: "))
 
@@ -42,7 +44,7 @@ recursive_time = end_time - start_time
 
 # Подсчёт времени выполнения итеративно
 start_time = time.time()
-f_iter = F_iter(n)
+f_iter = F_iter(n-1)
 end_time = time.time()
 iterative_time = end_time - start_time
 
@@ -64,7 +66,7 @@ for n in n_values:  # заполнение списков данными
     recursive_times.append(end - start)
 
     start = time.time()
-    iterative_values.append(F_iter(n))
+    iterative_values.append(F_iter(n-1))
     end = time.time()
     iterative_times.append(end - start)
 
