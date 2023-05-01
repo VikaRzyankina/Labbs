@@ -10,29 +10,29 @@
 import time
 import matplotlib.pyplot as plt
 
+def accept_number(description):
+    while True:
+        try:
+            return int(input(description))
+        except ValueError:
+            print('Введенное значение не является числом.')
 
 def F_rec(n):               # Рекурсивная функция
-    if n == 0 or n == 1:
+    if n == 1:
         return 1
     else:
         return 5 * F_rec(n-1)
 
-
 def F_iter(n):              # Итеративная функция
-    if n == 0 or n == 1:
-        return 1
-    else:
-        result = 1
-        if n > 1:
-            for i in range(2, n+1):
-                result *= 5
+    result = 1
+    for i in range(2, n+1):
+        result *= 5
+    return result
 
-            return result
+n = accept_number("Введите натуральное число n, для подсчета F(n) = F(n–1) * 5: ")
 
-n = int(input("Введите натуральное число n, для подсчета F(n) = F(n–1)!: "))
-
-while n < 0:  # ошибка в случае введения не натурального числа
-    n = int(input("\nВы ввели не подходящее число. Введите число >=0 :\n"))
+while n < 2:  # ошибка в случае введения не натурального числа
+    n = int(input("\nВы ввели не подходящее число. Введите число >1 :\n"))
 
 # Подсчёт времени выполнения рекурсивно
 start_time = time.time()
