@@ -74,7 +74,8 @@ m=accept_number('Введите высоту массива: ')
 array = [[random.randint(-10, 11) for i in range(n)] for j in range(m)]
 
 summ = [0] * n
-print_array('Начальный массив', array)
+print('Начальный массив:')
+print_array(array)
 for i in range(n):
     for j in range(m):
         if i % 2 == 1:

@@ -67,6 +67,8 @@ count = [0]
 n=accept_number('Введите ширину массива: ')
 m=accept_number('Введите высоту массива: ')
 array = [[random.randint(-10, 10) for i in range(n)] for j in range(m)]
+print('Начальный массив:')
+print_array(array)
 
 print('Рекурсивный перебор возможных вариантов.')
 F_rec(array, 0, 0, count)
