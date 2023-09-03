@@ -18,7 +18,7 @@ class Program:
         self.row = accept_number('Введите ширину массива: ')
         self.column = accept_number('Введите высоту массива: ')
         while (True):
-            handler_name = input('Введите желаемый тип перебора массива (rec, iter): ')
+            handler_name = input('Выберите желаемый тип перебора массива (rec, iter): ')
             if handler_name == 'rec':
                 self.handler = RecursiveHandler()
                 break
