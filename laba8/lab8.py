@@ -13,7 +13,6 @@ import tkinter as tk
 import random
 import copy
 
-
 class Program:
     def __init__(self,main):
         self.main = main
@@ -31,9 +30,10 @@ class Program:
         self.entry2 = tk.Entry(main, width=30, justify='center')
         self.entry2.pack()
 
-        tk.Label(main,text="Выберите желаемый тип перебора массива (rec, iter): ").pack()
-        self.entry3 = tk.Entry(main,width=30, justify='center')
-        self.entry3.pack()
+        tk.Label(main, text='Выберите желаемый тип перебора массива').pack()
+        self.entry3 = tk.StringVar()
+        self.entry3.set('Итеративный')
+        tk.OptionMenu(main, self.entry3, *['Итеративный', 'Рекурсивный']).pack()
 
         self.button_main = tk.Button(main,text="Начать", command=self.check_input)
         self.button_main.pack()
@@ -48,13 +48,10 @@ class Program:
         if self.row is None or self.column is None:
             return
         handler_name = self.entry3.get()
-        if handler_name == 'rec':
+        if handler_name == 'Рекурсивный':
             self.handler = RecursiveHandler()
-        elif handler_name == 'iter':
+        elif handler_name == 'Итеративный':
             self.handler = IterativeHandler()
-        else:
-            text_window('Введенное неправильное имя обработчика.')
-            return
         self.start()
 
     def start(self):
@@ -62,12 +59,20 @@ class Program:
         summ = [0] * self.row
         root = tk.Tk()
         tk.Label(root, text='Начальный массив:').pack()
-        tk.Label(root, text=array_string(array)).pack()
+        start_array = tk.Text(root, height=self.column, width=self.row*5, wrap=tk.NONE)
+        start_array.tag_configure("center", justify=tk.CENTER)
+        start_array.insert(tk.END, array_string(array))
+        start_array.tag_add('center', '1.0', 'end')
+        start_array.pack()
         for i in range(self.row):
             for j in range(self.column):
                 if i % 2 == 1:
                     summ[i] += array[j][i]
-        count = self.handler.process(array, summ, root) - 1
+        list_arrays = tk.Text(root, height=15, width=self.row*5, wrap=tk.NONE)
+        list_arrays.tag_configure("center", justify=tk.CENTER)
+        count = self.handler.process(array, summ, root, list_arrays) - 1
+        list_arrays.tag_add('center', '1.0', 'end')
+        list_arrays.pack()
         root.title("Ответ")
         tk.Label(root,width=90, text=f'Общее количество вариантов: {count}').pack()
         if count == 0:
@@ -76,15 +81,16 @@ class Program:
         self.button_exit.pack(anchor="se")
 
 class Handler:
-    def process(self, array, summ, root):
+    def process(self, array, summ, root, list_arrays):
         return 0
 
 
 class IterativeHandler(Handler):
-    def process(self, array, summ, root):
+    def process(self, array, summ, root, list_arrays):
         tk.Label(root, width=90, text='Итеративный перебор возможных вариантов.').pack()
         count = 0
         stack = [(copy.deepcopy(array), 0, 0)]
+
         while stack:  # пока не пусто
             array, row, column = stack.pop()
             if column == len(array[row]):
@@ -92,7 +98,7 @@ class IterativeHandler(Handler):
                 row += 1
             if row == len(array):
                 count += 1
-                tk.Label(root, width=90, text=array_string(array)).pack()
+                list_arrays.insert(tk.END, array_string(array) + '\n')
                 continue
             stack.append((copy.deepcopy(array), row, column + 1))
 
@@ -104,26 +110,27 @@ class IterativeHandler(Handler):
 
 
 class RecursiveHandler(Handler):
-    def process(self, array, summ, root):
+    def process(self, array, summ, root, list_arrays):
         tk.Label(root, text='Рекурсивный перебор возможных вариантов.').pack()
         count = [0]
-        self._process(array, 0, 0, count, summ, root)
+        self._process(array, 0, 0, count, summ, root, list_arrays)
         return count[0]
 
-    def _process(self, array, row, column, count, summ, root):
+    def _process(self, array, row, column, count, summ, root, list_arrays):
         if column == len(array[row]):
             column = 0
             row += 1
         if row == len(array):
-            tk.Label(root, width=90, text=array_string(array)).pack()
+            list_arrays.insert(tk.END, array_string(array) + '\n')
+
             count[0] += 1
             return
-        self._process(copy.deepcopy(array), row, column + 1, count, summ, root)
+        self._process(copy.deepcopy(array), row, column + 1, count, summ, root, list_arrays)
 
         if array[row][column] > 0 and column % 2 == 1 and array[row][column] % 3 != 0 and summ[column] > 0:
             new_array = copy.deepcopy(array)
             new_array[row][column] = -new_array[row][column]
-            self._process(new_array, row, column + 1, count, summ, root)
+            self._process(new_array, row, column + 1, count, summ, root, list_arrays)
 
 def text_window(message):
   window = tk.Tk()
