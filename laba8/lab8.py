@@ -40,7 +40,7 @@ class Program:
         self.button_main = tk.Button(main, font = 14,text="Начать", command=self.check_input)
         self.button_main.pack()
 
-        self.button_exit = tk.Button(main, font = 14, text="Выход", command=window.destroy)
+        self.button_exit = tk.Button(main, text="Выход", command=window.destroy)
         self.button_exit.config( font=('Helvetica', 12))
         self.button_exit.pack(anchor="se")
         self.main.mainloop()
@@ -80,7 +80,8 @@ class Program:
         tk.Label(root,width=90, font = 14, text=f'Общее количество вариантов: {count}').pack()
         if count == 0:
             tk.Label(root, width=90, font = 14, text='Проверяемый массив не подошел под условия.').pack()
-        self.button_exit = tk.Button(root, font = 14, text="Выход", command=root.destroy)
+        self.button_exit = tk.Button(root, text="Выход", command=root.destroy)
+        self.button_exit.config(font=('Helvetica', 12))
         self.button_exit.pack(anchor="se")
 
 class Handler:
