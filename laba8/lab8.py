@@ -41,6 +41,7 @@ class Program:
         self.button_main.pack()
 
         self.button_exit = tk.Button(main, font = 14, text="Выход", command=window.destroy)
+        self.button_exit.config( font=('Helvetica', 12))
         self.button_exit.pack(anchor="se")
         self.main.mainloop()
 
@@ -61,7 +62,7 @@ class Program:
         summ = [0] * self.row
         root = tk.Tk()
         tk.Label(root, font = 14, text='Начальный массив:').pack()
-        start_array = tk.Text(root, height=self.column*2, width=self.row*5, wrap=tk.NONE)
+        start_array = tk.Text(root, height=15, width=self.row * 5, wrap=tk.NONE)
         start_array.tag_configure("center", font = 14, justify=tk.CENTER)
         start_array.insert(tk.END, array_string(array))
         start_array.tag_add('center', '1.0', 'end')
@@ -70,7 +71,7 @@ class Program:
             for j in range(self.column):
                 if i % 2 == 1:
                     summ[i] += array[j][i]
-        list_arrays = tk.Text(root, height=self.column*5, width=self.row*5, wrap=tk.NONE)
+        list_arrays = tk.Text(root, height=15, width=self.row * 5, wrap=tk.NONE)
         list_arrays.tag_configure("center", font = 14, justify=tk.CENTER)
         count = self.handler.process(array, summ, root, list_arrays) - 1
         list_arrays.tag_add('center', '1.0', 'end')

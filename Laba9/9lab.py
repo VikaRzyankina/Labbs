@@ -14,7 +14,9 @@ class Program:
         Button(window, font=14, text="Регистрация", command=self.start).pack()
         Label(window, text='').pack()
         Button(window, font=14, text="Вход", command=self.start_2).pack()
-        Button(window, font=14, text="Выход", command=window.destroy).pack(anchor=SE)
+        but=Button(window, text="Выход", command=window.destroy)
+        but.config( font=('Helvetica', 12))
+        but.pack(anchor=SE)
 
         self.window.mainloop()
 
