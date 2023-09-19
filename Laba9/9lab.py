@@ -33,10 +33,12 @@ class Program:
         return entry
 
     def start(self):
+        self.window.destroy()
         self.wind = Tk()
         self.wind.title('Регистрация')
         wind = self.wind
         wind.eval('tk::PlaceWindow . center')
+        wind.geometry('300x200')
 
         self.login_user = self.wind_entry('Придумайте логин')
         self.password_user = self.wind_entry('Придумайте пароль')
@@ -44,10 +46,12 @@ class Program:
         Button(wind, font=14, text="Продолжить", command=self.write_txt).pack()
 
     def start_2(self):
+        self.window.destroy()
         self.wind = Tk()
         self.wind.title('Вход')
         wind = self.wind
         wind.eval('tk::PlaceWindow . center')
+        wind.geometry('300x200')
 
         self.login_user = self.wind_entry('Введите логин')
         self.password_user = self.wind_entry('Введите пароль')
@@ -79,7 +83,7 @@ class Program:
                 Program.text_window('Вы оставили поле пустым.')
                 return
         with open('File.txt', 'a') as f:
-            Program.text_window('Вы успешно зарегистрировались.', 'Регистрация')
+            Program.text_window('Вы успешно зарегистрировались и вошли.', 'Регистрация')
             f.write(
                 '\n' + self.login_user.get() + '\n' + hashlib.sha1(str.encode(self.password_user.get())).hexdigest())
             f.close()
