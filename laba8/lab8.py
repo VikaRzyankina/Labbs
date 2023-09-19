@@ -8,7 +8,6 @@
 + Сумма элементов столбца изначального массива проверяемого элемента должна быть не отрицательной.
 
 '''
-from tkinter import *
 import tkinter as tk
 import random
 import copy
