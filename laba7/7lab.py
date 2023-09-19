@@ -15,14 +15,14 @@ import copy
 
 class Program:
     def __init__(self):
-        self.row = accept_number('Введите ширину массива: ')
-        self.column = accept_number('Введите высоту массива: ')
+        self.row = accept_number('Введите количество строк массива: ')
+        self.column = accept_number('Введите количество столбцов массива: ')
         while (True):
-            handler_name = input('Выберите желаемый тип перебора массива (rec, iter): ')
-            if handler_name == 'rec':
+            handler_name = input('Выберите желаемый тип перебора массива (rec - 0, iter - 1): ')
+            if handler_name == '0':
                 self.handler = RecursiveHandler()
                 break
-            elif handler_name == 'iter':
+            elif handler_name == '1':
                 self.handler = IterativeHandler()
                 break
             else:
