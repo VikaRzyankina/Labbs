@@ -34,11 +34,17 @@ class Program:
     def start(self):
         while True:
             self.process_matrix()
-            next = input('Выбери следующее действие (новая матрица - 0, выход - 1): ')
+            next = input('Выбери следующее действие (перегенерация матрицы - 0, новая матрица - 1, выход - 2): ')
             if next == '0':
                 self.matrix.regenerate()
                 continue
             elif next == '1':
+                self.matrix = Matrix(
+                    accept_number('Введите количество строк массива: '),
+                    accept_number('Введите количество столбцов массива: ')
+                )
+                continue
+            elif next == '2':
                 print('Выход из программы...')
                 break
             else:
