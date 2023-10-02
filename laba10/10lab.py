@@ -72,16 +72,27 @@ def computer_walk():
 
     if buttons[0][0]['text'] == buttons[1][1]['text'] == player_1 and buttons[2][2]['text'] == '': # диагональ
         computer_TF(2, 2)
+        return
     elif buttons[1][1]['text'] == buttons[2][2]['text'] == player_1 and buttons[0][0]['text'] == '':
         computer_TF(0, 0)
+        return
     elif buttons[0][0]['text'] == buttons[2][2]['text'] == player_1 and buttons[1][1]['text'] == '':
         computer_TF(1, 1)
+        return
     elif buttons[0][2]['text'] == buttons[1][1]['text'] == player_1 and buttons[2][0]['text'] == '':
         computer_TF(2, 0)
+        return
     elif buttons[2][0]['text'] == buttons[1][1]['text'] == player_1 and buttons[0][2]['text'] == '':
         computer_TF(0, 2)
+        return
     elif buttons[2][0]['text'] == buttons[0][2]['text'] == player_1 and buttons[1][1]['text'] == '':
         computer_TF(1, 1)
+        return
+    while True:
+        r = random.choice([[0, 0], [2, 2], [2, 0], [0, 2]])
+        if buttons[r[0]][r[1]]['text'] == '':
+            computer_TF(r[0],r[1])
+            return
 
 def winner_check(player):
     for line in winning_positions:
