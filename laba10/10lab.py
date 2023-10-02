@@ -37,6 +37,8 @@ def game(r, c): # начало игры
                             text_window('Победил компьютер','Игра окончена')
                         break
             computer = False
+            if winner_check(player_2):
+                text_window('Победил компьютер', 'Игра окончена')
         else:
             text_window('У вас ничья','Игра окончена')
 
@@ -99,11 +101,11 @@ def winner_check(player):
         win = True
         for coord in line:
             if buttons[coord[0]][coord[1]]['text'] != player:
-                win =  False
+                win = False
                 break
         if win:
             return True
-    return  False
+    return False
 
 def new_game(window):
     global root, buttons, turns, computer
@@ -118,7 +120,6 @@ def new_game(window):
     buttons = [[], [], []]  # кнопки
     turns = 0
     computer =  False
-
 
     for c in range(3): root.columnconfigure(index=c, weight=1)
     for r in range(3): root.rowconfigure(index=r, weight=1)
