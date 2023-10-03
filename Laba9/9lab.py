@@ -10,7 +10,6 @@ class Program:
         window.eval('tk::PlaceWindow . center')
         window.geometry('300x250')
         window.configure(background='#849974')
-
         Label(window, text='', background='#849974').pack()
         Label(window, text='', background='#849974').pack()
         Button(window, font=14, text="Регистрация", command=self.start).pack()
@@ -20,7 +19,6 @@ class Program:
         but.config( font=('Helvetica', 12))
         Label(window, text='', background='#849974').pack()
         but.pack()
-
         self.window.mainloop()
 
     def window_entry(self, description):
@@ -35,35 +33,26 @@ class Program:
         entry.pack()
         return entry
 
-    def start(self):
+    def wind_start(self, title, log, passw):
         self.window.destroy()
         self.wind = Tk()
-        self.wind.title('Регистрация')
+        self.wind.title(title)
         wind = self.wind
         wind.eval('tk::PlaceWindow . center')
         wind.geometry('300x200')
         wind.configure(background='#849974')
 
-        self.login_user = self.wind_entry('Придумайте логин')
+        self.login_user = self.wind_entry(log)
         Label(wind, text='', background='#849974').pack()
-        self.password_user = self.wind_entry('Придумайте пароль')
+        self.password_user = self.wind_entry(passw)
         Label(wind, text='', background='#849974').pack()
         Button(wind, font=14, text="Продолжить", command=self.write_txt).pack()
 
-    def start_2(self):
-        self.window.destroy()
-        self.wind = Tk()
-        self.wind.title('Вход')
-        wind = self.wind
-        wind.eval('tk::PlaceWindow . center')
-        wind.geometry('300x200')
-        wind.configure(background='#849974')
+    def start(self):
+        self.wind_start('Регистрация', 'Введите логин', 'Придумайте пароль')
 
-        self.login_user = self.wind_entry('Введите логин')
-        Label(wind, text='', background='#849974').pack()
-        self.password_user = self.wind_entry('Введите пароль')
-        Label(wind, text='', background='#849974').pack()
-        Button(wind, font=14, text="Продолжить", command=self.open_txt).pack()
+    def start_2(self):
+        self.wind_start('Вход', 'Придумайте логин', 'Введите пароль')
 
     def open_txt(self):
         NotFound = True
