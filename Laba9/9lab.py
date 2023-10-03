@@ -3,20 +3,23 @@ import hashlib
 
 class Program:
     def __init__(self):
+        open('File.txt', 'a').close()
         self.window = Tk()
         self.window.title('Добрый день, пользователь!')
         window = self.window
         window.eval('tk::PlaceWindow . center')
-        window.geometry('300x200')
+        window.geometry('300x250')
+        window.configure(background='#849974')
 
-        Label(window, text='').pack()
-        Label(window, text='').pack()
+        Label(window, text='', background='#849974').pack()
+        Label(window, text='', background='#849974').pack()
         Button(window, font=14, text="Регистрация", command=self.start).pack()
-        Label(window, text='').pack()
+        Label(window, text='', background='#849974').pack()
         Button(window, font=14, text="Вход", command=self.start_2).pack()
         but=Button(window, text="Выход", command=window.destroy)
         but.config( font=('Helvetica', 12))
-        but.pack(anchor=SE)
+        Label(window, text='', background='#849974').pack()
+        but.pack()
 
         self.window.mainloop()
 
@@ -39,8 +42,10 @@ class Program:
         wind = self.wind
         wind.eval('tk::PlaceWindow . center')
         wind.geometry('300x200')
+        wind.configure(background='#849974')
 
         self.login_user = self.wind_entry('Придумайте логин')
+        Label(wind, text='', background='#849974').pack()
         self.password_user = self.wind_entry('Придумайте пароль')
 
         Button(wind, font=14, text="Продолжить", command=self.write_txt).pack()
@@ -52,8 +57,10 @@ class Program:
         wind = self.wind
         wind.eval('tk::PlaceWindow . center')
         wind.geometry('300x200')
+        wind.configure(background='#849974')
 
         self.login_user = self.wind_entry('Введите логин')
+        Label(wind, text='', background='#849974').pack()
         self.password_user = self.wind_entry('Введите пароль')
 
         Button(wind, font=14, text="Продолжить", command=self.open_txt).pack()
@@ -69,6 +76,9 @@ class Program:
                     self.wind.destroy()
                     NotFound = False
                     break
+                if self.login_user.get() == '' or self.password_user.get() == '':
+                    Program.text_window('Вы оставили поле пустым.')
+                    return
         if NotFound == True:
             Program.text_window('Не удалось авторизоваться. Не подходящие логин или пароль.')
 
@@ -84,8 +94,7 @@ class Program:
                 return
         with open('File.txt', 'a') as f:
             Program.text_window('Вы успешно зарегистрировались и вошли.', 'Регистрация')
-            f.write(
-                '\n' + self.login_user.get() + '\n' + hashlib.sha1(str.encode(self.password_user.get())).hexdigest())
+            f.write(self.login_user.get() + '\n' + hashlib.sha1(str.encode(self.password_user.get())).hexdigest())
             f.close()
             self.wind.destroy()
 
