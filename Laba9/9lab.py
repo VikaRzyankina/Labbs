@@ -47,7 +47,7 @@ class Program:
         self.login_user = self.wind_entry('Придумайте логин')
         Label(wind, text='', background='#849974').pack()
         self.password_user = self.wind_entry('Придумайте пароль')
-
+        Label(wind, text='', background='#849974').pack()
         Button(wind, font=14, text="Продолжить", command=self.write_txt).pack()
 
     def start_2(self):
@@ -62,7 +62,7 @@ class Program:
         self.login_user = self.wind_entry('Введите логин')
         Label(wind, text='', background='#849974').pack()
         self.password_user = self.wind_entry('Введите пароль')
-
+        Label(wind, text='', background='#849974').pack()
         Button(wind, font=14, text="Продолжить", command=self.open_txt).pack()
 
     def open_txt(self):
