@@ -33,7 +33,7 @@ class Program:
         entry.pack()
         return entry
 
-    def wind_start(self, title, log, passw):
+    def wind_start(self, title, log, passw, command):
         self.window.destroy()
         self.wind = Tk()
         self.wind.title(title)
@@ -46,20 +46,20 @@ class Program:
         Label(wind, text='', background='#849974').pack()
         self.password_user = self.wind_entry(passw)
         Label(wind, text='', background='#849974').pack()
-        Button(wind, font=14, text="Продолжить", command=self.write_txt).pack()
+        Button(wind, font=14, text="Продолжить", command=command).pack()
 
     def start(self):
-        self.wind_start('Регистрация', 'Введите логин', 'Придумайте пароль')
+        self.wind_start('Регистрация', 'Придумайте логин', 'Придумайте пароль', self.write_txt)
 
     def start_2(self):
-        self.wind_start('Вход', 'Придумайте логин', 'Введите пароль')
+        self.wind_start('Вход', 'Введите логин', 'Введите пароль', self.open_txt)
 
     def open_txt(self):
         NotFound = True
         with open('File.txt', 'r') as f:
             read = f.readlines()
             password_sha = hashlib.sha1(str.encode(self.password_user.get())).hexdigest()
-            for i in range(0, len(read), 2):
+            for i in range(1, len(read), 2):
                 if self.login_user.get() == read[i].rstrip('\n') and password_sha == read[i + 1].rstrip('\n'):
                     Program.text_window('Вы успешно авторизовались', 'Авторизация')
                     self.wind.destroy()
@@ -74,7 +74,7 @@ class Program:
     def write_txt(self):
         with open('File.txt', 'r') as f:
             read = f.readlines()
-            for i in range(0, len(read), 2):
+            for i in range(1, len(read), 2):
                 if self.login_user.get() == read[i].rstrip('\n'):
                     Program.text_window('Выбранный вами логин уже используется.')
                     return
@@ -83,7 +83,7 @@ class Program:
                 return
         with open('File.txt', 'a') as f:
             Program.text_window('Вы успешно зарегистрировались и вошли.', 'Регистрация')
-            f.write(self.login_user.get() + '\n' + hashlib.sha1(str.encode(self.password_user.get())).hexdigest())
+            f.write('\n' + self.login_user.get() + '\n' + hashlib.sha1(str.encode(self.password_user.get())).hexdigest())
             f.close()
             self.wind.destroy()
 
