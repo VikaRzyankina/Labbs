@@ -127,6 +127,7 @@ class Game:
                 self.buttons[r].append(btn)
                 btn.grid(row=r, column=c, sticky="nsew")
         self.spawn_ball()
+        self.score_label=Label(text=f'Счёт:{self.score}')
         roott.mainloop()
 
     def color_ball(self, x, y):
@@ -137,9 +138,9 @@ class Game:
             self.choice_ball(x, y)
         elif self.current_stage == MOVE:
             self.place_ball(x, y)
-            self.color_check(x, y)
 
-    def spawn_ball(self):  # начало игры
+
+    def spawn_ball(self):
         c = 0
         while c != 3:
             x = random.randint(0, 8)
@@ -147,8 +148,14 @@ class Game:
             if self.buttons[x][y]['text'] == ' ':
                 self.buttons[x][y]['text'] = random.choice(self.colors)
                 self.color_check(x, y)
+                self.color_ball(x, y)
             c += 1
-            self.color_ball(x, y)
+
+        for row in self.buttons:
+            for button in row:
+                if button['text'] == ' ':
+                    return
+        text_window('Вы проиграли')
 
     def choice_ball(self, x, y):
         if self.buttons[x][y]['text'] != ' ':
@@ -163,6 +170,11 @@ class Game:
             self.spawn_ball()
             self.color_ball(x, y)
             self.clear_ball(self.save_x, self.save_y)
+            self.color_check(x, y)
+        else:
+            self.save_x = x
+            self.save_y = y
+
 
     def validate_coord(self, x, y):
         return 0 <= x < 9 and 0 <= y < 9
@@ -231,7 +243,7 @@ class Game:
         elif count == 5:
             self.score += 1
         print(self.score)
-        text_window(f'Счёт:{self.score} ')
+
 
 def text_window(message, title = None):  # функция для вывода текста об ошибке
     window = Tk()

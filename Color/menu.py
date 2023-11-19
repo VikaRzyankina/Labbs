@@ -8,7 +8,7 @@ root.title("Color Lines")
 mixer.init()
 mixer.music.load('assets/MenuSound.mp3')
 mixer.music.play(loops=-1)
-mixer.music.set_volume(0.2)
+mixer.music.set_volume(0.1)
 
 def Main_menu():
     img = Image.open('assets/menuu.jpeg')
