@@ -23,9 +23,8 @@ def s_sum(x, t):
     sign = -1  # Переменная для смены знака
 
     while True:
-        curr_term = Decimal(np.linalg.det(curr_x) * n) / Decimal(factorial)  # Вычисляем текущий член ряда
+        curr_term = Decimal(np.linalg.det(curr_x * n)) / Decimal(factorial)  # Вычисляем текущий член ряда
         res += sign * curr_term  # Прибавляем его к результату с учетом знака
-
         # Проверка на достижение точности
         if abs(curr_term) < 1 / Decimal(10 ** t):
             break
