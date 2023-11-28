@@ -6,6 +6,14 @@ import random
 import numpy as np
 from decimal import Decimal, getcontext
 
+# Генерация случайного значения k и матрицы x
+def matrix():
+    k = random.randint(2, 10)
+    x = np.random.randint(-1, 1, (k, k))
+    if abs(np.linalg.det(x)) == 0:
+        return matrix()
+    else:
+        return x
 
 def s_sum(x, t):
     n = 1  # Номер слагаемого
@@ -35,14 +43,7 @@ while t < 1:
 
 print()
 
-# Генерация случайного значения k и матрицы x
-def matrix():
-    k = random.randint(1, 10)
-    x = np.random.randint(-1, 1, (k, k))
-    if abs(np.linalg.det(x)) == 0:
-        return matrix()
-    else:
-        return x
+
 
 x = matrix()
 
