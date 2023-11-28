@@ -42,8 +42,6 @@ while t < 1:
 
 print()
 
-
-
 x = matrix()
 
 # Вывод матрицы x
