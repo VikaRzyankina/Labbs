@@ -32,7 +32,6 @@ def s_sum(x, t):
         n += 1
         sign *= -sign
         factorial *= n
-        curr_x *= x
 
     return res
 
