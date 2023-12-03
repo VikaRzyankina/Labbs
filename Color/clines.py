@@ -2,10 +2,10 @@ from tkinter import *
 import hashlib
 import random
 
-
 GAME_OVER = 'game_over'
 SELECT = 'choice'
 MOVE = 'move'
+
 
 class Auth:
     def __init__(self, menu):
@@ -22,8 +22,8 @@ class Auth:
         Button(window, font=14, text="Регистрация", command=self.start).pack()
         Label(window, text='', background='#849974').pack()
         Button(window, font=14, text="Вход", command=self.start_2).pack()
-        but=Button(window, text="Выход", command=window.destroy)
-        but.config( font=('Helvetica', 12))
+        but = Button(window, text="Выход", command=window.destroy)
+        but.config(font=('Helvetica', 12))
         Label(window, text='', background='#849974').pack()
         but.pack()
         self.window.mainloop()
@@ -123,22 +123,22 @@ class Game:
         for r in range(9): roott.rowconfigure(index=r, weight=1)
         for r in range(9):
             for c in range(9):
-                btn = Button(text=' ', font="Arial 14", width=100, height=100, command=lambda row=r, column=c: self.stage_choice(row, column))
+                btn = Button(text=' ', font="Arial 14", width=100, height=100,
+                             command=lambda row=r, column=c: self.stage_choice(row, column))
                 self.buttons[r].append(btn)
                 btn.grid(row=r, column=c, sticky="nsew")
         self.spawn_ball()
-        self.score_label=Label(text=f'Счёт:{self.score}')
+        self.score_label = Label(text=f'Счёт:{self.score}')
         roott.mainloop()
 
     def color_ball(self, x, y):
-        self.buttons[x][y].config(image=self.image[int(self.buttons[x][y]['text'])-1])
+        self.buttons[x][y].config(image=self.image[int(self.buttons[x][y]['text']) - 1])
 
     def stage_choice(self, x, y):
         if self.current_stage == SELECT:
             self.choice_ball(x, y)
         elif self.current_stage == MOVE:
             self.place_ball(x, y)
-
 
     def spawn_ball(self):
         c = 0
@@ -165,6 +165,8 @@ class Game:
 
     def place_ball(self, x, y):
         if self.buttons[x][y]['text'] == ' ':
+            if not self.pathfinding(x, y):
+                return
             self.buttons[x][y]['text'] = self.buttons[self.save_x][self.save_y]['text']
             self.current_stage = SELECT
             self.spawn_ball()
@@ -182,7 +184,7 @@ class Game:
     def color_check(self, x, y):
         color = self.buttons[x][y]['text']
         for nearby_coords in [[0, -1], [-1, -1], [-1, 0], [-1, 1]]:
-           self.line_check(x, y, nearby_coords, color)
+            self.line_check(x, y, nearby_coords, color)
 
     def line_check(self, x, y, nearby_coords, color):
         count = 1
@@ -227,7 +229,7 @@ class Game:
                     break
             self.clear_ball(x, y)
 
-    def clear_ball(self,x ,y):
+    def clear_ball(self, x, y):
         self.buttons[x][y]['text'] = ' '
         self.buttons[x][y].config(image='')
 
@@ -244,8 +246,46 @@ class Game:
             self.score += 1
         print(self.score)
 
+    def pathfinding(self, x, y):
+        goal = [x, y]
+        reachable = [[self.save_x, self.save_y]] #Нужно про1ти
+        explored = [] #пройдено
+        while len(reachable) != 0:
+            node = self.choose_node(reachable, goal)
+            if node == goal:
+                return True
+            reachable.remove(node)
+            explored.append(node)
+            new_reachable = []
+            for j in self.get_adjacent_nodes(node):
+                if j not in explored:
+                    new_reachable.append(j)
+            for adjacent in new_reachable:
+                if adjacent not in reachable:
+                    reachable.append(adjacent)
+        return False
 
-def text_window(message, title = None):  # функция для вывода текста об ошибке
+    def get_adjacent_nodes(self, node):
+        adjacent_nodes = []
+        for x, y in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
+            x_offset = node[0] + x
+            y_offset = node[1] + y
+            if (9 > x_offset >= 0 and 9 > y_offset >= 0) and self.buttons[x_offset][y_offset]['text'] == ' ':
+                adjacent_nodes.append([x_offset, y_offset])
+        return adjacent_nodes
+
+    def choose_node(self, reachable, goal):
+        min_cost = 20
+        best_node = None
+        for node in reachable:
+            total_cost = abs(goal[0] - node[0]) + abs(goal[1] - node[1])
+            if min_cost > total_cost:
+                min_cost = total_cost
+                best_node = node
+        return best_node
+
+
+def text_window(message, title=None):  # функция для вывода текста об ошибке
     window = Tk()
     if title != None:
         window.title(title)
