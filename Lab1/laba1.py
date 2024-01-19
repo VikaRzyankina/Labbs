@@ -8,7 +8,7 @@ while filename.find('.txt') == -1:
         buffer = f.read().split(' ')
         print(buffer)
         for i in range(len(buffer)):
-            print(buffer[i], i)
+            
             if str(buffer)[i] % 2 == 0 and len(str(buffer)) == 5 and str(buffer)[0] == '7':
                 count += 1
                 summ += buffer[i]
